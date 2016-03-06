@@ -11,7 +11,7 @@
 
 
 
-(defn retrieve-gists [user_name] 
+(defn retrieve-gists [user_name] ;please use auth 
   (count (gists/user-gists user_name {:per-page 100}))
 
 
