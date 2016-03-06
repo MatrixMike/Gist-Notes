@@ -11,23 +11,27 @@
 
 
 
-(defn retrieve-gists [user_name] ;please use auth 
-  (count (gists/user-gists user_name {:per-page 100}))
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+(defn retrieve-gists [user_name password] ;this works
+  (let [auth (str user_name ":" password)]
+    (count (gists/gists {:auth auth}))
+  )
 )
+;this works!
+(defn get-public-gist [that-user user_name password]
+  (let [auth (str user_name ":" password)]
+    (loop [page 1 amnt 0] (let [gist-count (count (gists/user-gists that-user {:auth auth :per-page 100 :page page}))] (if (= 100 (count (gists/user-gists that-user {:auth auth :per-page 100 :page page}))) 
+                                                                                                                         
+                                                                                                                         (recur (+ page 1) (+ amnt 100))
+                                                                                                                         (+ amnt gist-count))
+       )
+    )
+  )
+)
+
 
 
 
